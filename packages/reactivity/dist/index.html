@@ -7,6 +7,20 @@
     <title>Document</title>
   </head>
   <body>
-    <script src="./reactivity.global.js"></script>
+    <!-- <script src="./reactivity.global.js"></script> -->
+
+    <div id="app"></div>
+    <script src="../../../node_modules/@vue/reactivity/dist/reactivity.global.js"></script>
+    <script>
+      const { effect, reactive } = VueReactivity;
+      const user = reactive({ name: "jin", age: 18 });
+      effect(() => {
+        const app = document.querySelector("#app");
+        app.innerHTML = JSON.stringify(user);
+      });
+      setTimeout(() => {
+        user.age = 1000;
+      }, 1000);
+    </script>
   </body>
 </html>
