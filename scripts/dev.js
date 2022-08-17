@@ -2,7 +2,6 @@
 const args = require("minimist")(process.argv.slice(2));
 const { build } = require("esbuild");
 const { resolve } = require("path");
-console.log(args);
 
 const target = args._[0] || "reactivity";
 const format = args.f || "global";
@@ -31,7 +30,8 @@ build({
   bundle: true, //所有包打到一起
   sourcemap: true,
   format: outputFormat,
-  globalName: format === "cjs" ? "node" : "browser",
+  globalName: pkg.buildOptions?.name, //打包的全局名字
+  platform: format === "cjs" ? "node" : "browser", //平台
   watch: {
     //监控文件变化
     onRebuild(error) {
