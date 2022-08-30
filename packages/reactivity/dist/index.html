@@ -1,26 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <!-- <script src="./reactivity.global.js"></script> -->
 
-    <div id="app"></div>
-    <script src="../../../node_modules/@vue/reactivity/dist/reactivity.global.js"></script>
-    <script>
-      const { effect, reactive } = VueReactivity;
-      const user = reactive({ name: "jin", age: 18 });
-      effect(() => {
-        const app = document.querySelector("#app");
-        app.innerHTML = JSON.stringify(user);
-      });
-      setTimeout(() => {
-        user.age = 1000;
-      }, 1000);
-    </script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script src="./reactivity.global.js"></script>
+  <!-- <script src="../../../node_modules/@vue/reactivity/dist/reactivity.global.js"></script> -->
+  <script>
+    const { effect, reactive } = VueReactivity;
+    const user = reactive({ name: "jin", age: 18 });
+    effect(() => {
+      const app = document.querySelector("#app");
+      app.innerHTML = JSON.stringify(user);
+    });
+    setTimeout(() => {
+      user.name = "改版了名字";
+    }, 1000);
+  </script>
+</body>
+
 </html>
