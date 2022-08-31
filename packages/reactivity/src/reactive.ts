@@ -19,5 +19,6 @@ export function reactive(target: any) {
 
   reactiveMap.set(target, proxy);
 
+  console.log("reactiveMap", reactiveMap);
   return proxy;
 }

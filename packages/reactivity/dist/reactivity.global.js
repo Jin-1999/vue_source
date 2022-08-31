@@ -58,6 +58,7 @@ var VueReactivity = (() => {
     let depsMap = targetMap.get(target);
     if (!depsMap)
       targetMap.set(target, depsMap = /* @__PURE__ */ new Map());
+    console.log("targetMap", targetMap);
     let dep = depsMap.get(key);
     if (!dep)
       depsMap.set(key, dep = /* @__PURE__ */ new Set());
@@ -68,13 +69,15 @@ var VueReactivity = (() => {
     }
   }
   function trigger(target, type, key, newVal, oldVal) {
-    console.log("==", newVal, oldVal);
+    console.log("==", target, newVal, oldVal);
     const depsMap = targetMap.get(target);
-    console.log("deps", depsMap);
+    console.log("depsMap", depsMap);
     if (!depsMap)
       return;
     const effects = depsMap.get(key);
+    console.log("effects", effects);
     effects && effects.forEach((effect2) => {
+      console.log("effect", effect2);
       if (effect2 !== activeEffect)
         effect2.run();
     });
@@ -97,7 +100,7 @@ var VueReactivity = (() => {
       let oldValue = target[key];
       const result = Reflect.set(target, key, value, receiver);
       if (oldValue !== value) {
-        trigger("target", "set", key, value, oldValue);
+        trigger(target, "set", key, value, oldValue);
       }
       return result;
     }
@@ -117,6 +120,7 @@ var VueReactivity = (() => {
       return cacheProxy;
     const proxy = new Proxy(target, mutableHandler);
     reactiveMap.set(target, proxy);
+    console.log("reactiveMap", reactiveMap);
     return proxy;
   }
   return __toCommonJS(src_exports);

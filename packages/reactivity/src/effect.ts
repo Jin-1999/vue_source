@@ -34,6 +34,7 @@ export function track(target, type, key) {
   let depsMap = targetMap.get(target);
   if (!depsMap) targetMap.set(target, (depsMap = new Map()));
 
+  console.log("targetMap", targetMap);
   let dep = depsMap.get(key);
   if (!dep) depsMap.set(key, (dep = new Set()));
 
@@ -46,13 +47,15 @@ export function track(target, type, key) {
 }
 
 export function trigger(target, type, key, newVal, oldVal) {
-  console.log("==", newVal, oldVal);
+  console.log("==", target, newVal, oldVal);
   const depsMap = targetMap.get(target);
-  console.log("deps", depsMap);
+  console.log("depsMap", depsMap);
   if (!depsMap) return; //触发的值不在模板里使用
   const effects = depsMap.get(key);
+  console.log("effects", effects);
   effects &&
     effects.forEach((effect) => {
+      console.log("effect", effect);
       if (effect !== activeEffect) effect.run();
     });
 }

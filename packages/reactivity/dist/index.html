@@ -17,7 +17,7 @@
     const user = reactive({ name: "jin", age: 18 });
     effect(() => {
       const app = document.querySelector("#app");
-      app.innerHTML = JSON.stringify(user);
+      app.innerHTML = user.name;
     });
     setTimeout(() => {
       user.name = "改版了名字";
