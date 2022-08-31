@@ -19,9 +19,19 @@
       const app = document.querySelector("#app");
       app.innerHTML = user.name;
     });
-    setTimeout(() => {
-      user.name = "改版了名字";
-    }, 1000);
+
+
+    fn('king').then(() => fn('boom'))
+
+
+    function fn(_s) {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          user.name = _s
+          resolve()
+        }, 1000);
+      })
+    }
   </script>
 </body>
 

@@ -1,4 +1,12 @@
 export let activeEffect: any = undefined;
+function cleanUpEffect(effect) {
+  // effect.deps = [] 只是单方面的不可此操作
+  const { deps } = effect; //deps: name => effect
+  for (let i = 0; i < deps.length; i++) {
+    deps[i].delete(effect);
+  }
+  effect.deps.length = 0;
+}
 class ReactiveEffect {
   public active = true;
   public parent = null;
@@ -12,6 +20,8 @@ class ReactiveEffect {
     try {
       this.parent = activeEffect;
       activeEffect = this;
+      // 执行函数前将执行收集的依赖清空 activeEffect.deps = {}
+      cleanUpEffect(this);
       return this.fn();
     } finally {
       activeEffect = this.parent;
@@ -47,15 +57,18 @@ export function track(target, type, key) {
 }
 
 export function trigger(target, type, key, newVal, oldVal) {
-  console.log("==", target, newVal, oldVal);
   const depsMap = targetMap.get(target);
   console.log("depsMap", depsMap);
+
   if (!depsMap) return; //触发的值不在模板里使用
-  const effects = depsMap.get(key);
+  let effects = depsMap.get(key);
   console.log("effects", effects);
-  effects &&
+
+  if (effects) {
+    effects = new Set(effects);
     effects.forEach((effect) => {
       console.log("effect", effect);
       if (effect !== activeEffect) effect.run();
     });
+  }
 }
