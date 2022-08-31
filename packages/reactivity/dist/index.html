@@ -23,16 +23,6 @@
     runner.effect.stop()
 
     fn('king').then(() => fn('boom'))
-
-
-    function fn(_s) {
-      return new Promise(resolve => {
-        setTimeout(() => {
-          user.name = _s
-          resolve()
-        }, 1000);
-      })
-    }
   </script>
 </body>
 

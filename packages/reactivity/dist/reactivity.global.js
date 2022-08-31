@@ -113,7 +113,11 @@ var VueReactivity = (() => {
       if (key === "__v_isReactive" /* IS_REACTIVE */)
         return true;
       track(target, "get", key);
-      return Reflect.get(target, key, receiver);
+      const res = Reflect.get(target, key, receiver);
+      if (isObject(res)) {
+        return reactive(res);
+      }
+      return res;
     },
     set(target, key, value, receiver) {
       let oldValue = target[key];
