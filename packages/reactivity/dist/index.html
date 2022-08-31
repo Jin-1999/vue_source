@@ -17,12 +17,11 @@
     const user = reactive({ name: "jin", age: 18 });
     const runner = effect(() => {
       const app = document.querySelector("#app");
-      app.innerHTML = user.name;
+      if (app) app.innerHTML = user.name;
     });
 
     runner.effect.stop()
 
-    fn('king').then(() => fn('boom'))
   </script>
 </body>
 

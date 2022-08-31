@@ -7,11 +7,11 @@ function cleanUpEffect(effect) {
   }
   effect.deps.length = 0;
 }
-class ReactiveEffect {
+export class ReactiveEffect {
   public active = true;
   public parent = null;
   public deps = [];
-  constructor(public fn: Function) {}
+  constructor(public fn: Function, public scheduler = null) {}
   run() {
     if (!this.active) {
       return this.fn();
