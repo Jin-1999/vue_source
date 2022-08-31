@@ -15,11 +15,12 @@
   <script>
     const { effect, reactive } = VueReactivity;
     const user = reactive({ name: "jin", age: 18 });
-    effect(() => {
+    const runner = effect(() => {
       const app = document.querySelector("#app");
       app.innerHTML = user.name;
     });
 
+    runner.effect.stop()
 
     fn('king').then(() => fn('boom'))
 

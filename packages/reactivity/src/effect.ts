@@ -16,7 +16,6 @@ class ReactiveEffect {
     if (!this.active) {
       return this.fn();
     }
-
     try {
       this.parent = activeEffect;
       activeEffect = this;
@@ -27,12 +26,23 @@ class ReactiveEffect {
       activeEffect = this.parent;
     }
   }
+  stop() {
+    if (this.active) {
+      this.active = false;
+      cleanUpEffect(this);
+    }
+  }
 }
 
 export function effect(fn: Function) {
   const _effect = new ReactiveEffect(fn);
   // 先立即执行一次
   _effect.run();
+
+  const runner = _effect.run.bind(_effect);
+  runner.effect = _effect;
+
+  return runner;
 }
 
 const targetMap = new WeakMap();
